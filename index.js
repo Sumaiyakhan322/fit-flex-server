@@ -28,9 +28,10 @@ async function run() {
     // await client.connect();
     const adminCollection=client.db('fitness').collection('admin');
     const usersCollection=client.db('fitness').collection('users');
-    const trainersCollection=client.db('trainer').collection('trainers');
+    const trainersCollection=client.db('fitness').collection('trainers');
     const blogsCollection=client.db('fitness').collection('blogs');
     const newsLetterCollection=client.db('fitness').collection('newsLetter');
+    const galleryCollection=client.db('fitness').collection('gallery');
     
 
 
@@ -82,6 +83,12 @@ async function run() {
     app.get('/newsLetter',async(req,res)=>{
       const result=await newsLetterCollection.find().toArray()
       res.send(result)
+    })
+    //get the image gallery 
+    app.get('/gallery',async(req,res)=>{
+      const result=await galleryCollection.find().toArray()
+      res.send(result)
+
     })
 
 
