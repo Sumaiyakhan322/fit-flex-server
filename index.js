@@ -69,6 +69,12 @@ async function run() {
       const result=await trainersCollection.find().toArray()
       res.send(result)
     })
+    app.get('/trainers/:email',async(req,res)=>{
+      const email=req.params.email;
+      const query={email:email}
+      const result=await trainersCollection.findOne(query)
+      res.send(result)
+    })
     //get the blogs
     app.get('/blogs',async(req,res)=>{
       const result=await blogsCollection.find().toArray()
