@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app=express()
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const port =process.env.PORT  || 5000
 //middle ware
@@ -32,6 +32,7 @@ async function run() {
     const blogsCollection=client.db('fitness').collection('blogs');
     const newsLetterCollection=client.db('fitness').collection('newsLetter');
     const galleryCollection=client.db('fitness').collection('gallery');
+    const timeSlotPricing=client.db('fitness').collection('timeSlotPricing');
     
 
 
@@ -69,9 +70,9 @@ async function run() {
       const result=await trainersCollection.find().toArray()
       res.send(result)
     })
-    app.get('/trainers/:email',async(req,res)=>{
-      const email=req.params.email;
-      const query={email:email}
+    app.get('/trainers/:id',async(req,res)=>{
+      const id=req.params.id
+      const query={_id:new ObjectId(id)}
       const result=await trainersCollection.findOne(query)
       res.send(result)
     })
@@ -95,6 +96,12 @@ async function run() {
       const result=await galleryCollection.find().toArray()
       res.send(result)
 
+    })
+    //get the time slot pricing
+    app.post('/timeSlot',async(req,res)=>{
+      const timeSlots=req.body;
+      const result=await timeSlotPricing.insertOne(timeSlots)
+      res.send(result)
     })
 
 
