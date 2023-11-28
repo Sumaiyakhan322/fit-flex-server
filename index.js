@@ -32,7 +32,10 @@ async function run() {
     const blogsCollection=client.db('fitness').collection('blogs');
     const newsLetterCollection=client.db('fitness').collection('newsLetter');
     const galleryCollection=client.db('fitness').collection('gallery');
-    const timeSlotPricing=client.db('fitness').collection('timeSlotPricing');
+    const plansCollection=client.db('fitness').collection('plans');
+    const bookedCollection=client.db('fitness').collection('booked');
+    const confirmBookedCollection=client.db('fitness').collection('confirmBooked')
+    
     
 
 
@@ -97,12 +100,25 @@ async function run() {
       res.send(result)
 
     })
-    //get the time slot pricing
-    app.post('/timeSlot',async(req,res)=>{
-      const timeSlots=req.body;
-      const result=await timeSlotPricing.insertOne(timeSlots)
+    //get the plans gallery 
+    app.get('/plans',async(req,res)=>{
+      const result=await plansCollection.find().toArray()
       res.send(result)
+
     })
+    //post the booked page
+    app.post('/booked',async(req,res)=>{
+      const bookedInfo=req.body;
+      const result=await bookedCollection.insertOne(bookedInfo)
+      res.send(result);
+    })
+    //post the cofirm booked page
+    app.post('/confirmBooked',async(req,res)=>{
+      const bookedInfo=req.body;
+      const result=await confirmBookedCollection.insertOne(bookedInfo)
+      res.send(result);
+    })
+    
 
 
     // Send a ping to confirm a successful connection
