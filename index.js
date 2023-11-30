@@ -35,6 +35,7 @@ async function run() {
     const plansCollection=client.db('fitness').collection('plans');
     const bookedCollection=client.db('fitness').collection('booked');
     const confirmBookedCollection=client.db('fitness').collection('confirmBooked')
+    const adminPaymentsCollections=client.db('fitness').collection('adminPayments')
     
     
 
@@ -79,6 +80,48 @@ async function run() {
       const result=await trainersCollection.findOne(query)
       res.send(result)
     })
+    //update trainers
+    app.patch('/trainers/beTrainers/:id',async(req,res)=>{
+      const id=req.params.id;
+      const filter={_id:new ObjectId(id)};
+      const body=req.body
+      const updatedDoc={
+        $set:{
+         role:'trainer',
+         date:body.date,
+         payment:'pending'
+        }
+      }
+      const result=await trainersCollection.updateOne(filter,updatedDoc)
+      
+      res.send(result);
+    })
+
+    app.patch('/trainers/payments/:id',async(req,res)=>{
+      const id=req.params.id;
+      const filter={_id:new ObjectId(id)};
+      
+      const updatedDoc={
+        $set:{
+         payment:'Paid'
+        }
+      }
+      const result=await trainersCollection.updateOne(filter,updatedDoc)
+      
+      res.send(result)
+    })
+    //admin payments
+    app.post('/adminPayments',async(req,res)=>{
+      const admin=req.body;
+      const result=await adminPaymentsCollections.insertOne(admin)
+      res.send(result)
+    })
+    app.get('/adminPayments',async(req,res)=>{
+      const result=await adminPaymentsCollections.find().toArray()
+      res.send(result)
+    })
+
+
     //get the blogs
     app.get('/blogs',async(req,res)=>{
       const result=await blogsCollection.find().toArray()
@@ -100,6 +143,7 @@ async function run() {
       res.send(result)
 
     })
+ 
     //get the plans gallery 
     app.get('/plans',async(req,res)=>{
       const result=await plansCollection.find().toArray()
