@@ -36,6 +36,8 @@ async function run() {
     const bookedCollection=client.db('fitness').collection('booked');
     const confirmBookedCollection=client.db('fitness').collection('confirmBooked')
     const adminPaymentsCollections=client.db('fitness').collection('adminPayments')
+    const forumCollection=client.db('fitness').collection('forum')
+    const classCollection=client.db('fitness').collection('classess')
     
     
 
@@ -96,6 +98,7 @@ async function run() {
       
       res.send(result);
     })
+
 
     app.patch('/trainers/payments/:id',async(req,res)=>{
       const id=req.params.id;
@@ -162,7 +165,43 @@ async function run() {
       const result=await confirmBookedCollection.insertOne(bookedInfo)
       res.send(result);
     })
-    
+    app.get('/confirmBooked',async(req,res)=>{
+      const result=await confirmBookedCollection.find().toArray()
+      res.send(result)
+    })
+    app.get('/confirmBooked/:id',async(req,res)=>{
+      const id=req.params.id
+      const query={_id:new ObjectId(id)}
+      const result=await confirmBookedCollection.findOne(query)
+      res.send(result)
+    })
+   
+    //forums
+    app.post('/forums',async(req,res)=>{
+      const forums=req.body;
+      const result=await forumCollection.insertOne(forums)
+      res.send(result);
+    })
+    app.get('/forums',async(req,res)=>{
+      const result=await forumCollection.find().toArray()
+      res.send(result)
+    })
+    //class
+    app.post('/classess',async(req,res)=>{
+      const classess=req.body;
+      const result=await classCollection.insertOne(classess)
+      res.send(result);
+    })
+    app.get('/classess',async(req,res)=>{
+      const result=await classCollection.find().toArray()
+      res.send(result)
+    })
+   app.get('/classess/:id',async(req,res)=>{
+    const id=req.params.id
+      const query={_id:new ObjectId(id)}
+      const result=await classCollection.findOne(query)
+      res.send(result)
+   })
 
 
     // Send a ping to confirm a successful connection
