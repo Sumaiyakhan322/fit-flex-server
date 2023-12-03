@@ -40,7 +40,7 @@ async function run() {
     const classCollection=client.db('fitness').collection('classess')
     
     
-
+    
 
 
 
