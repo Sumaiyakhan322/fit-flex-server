@@ -36,8 +36,8 @@ async function run() {
     const bookedCollection=client.db('fitness').collection('booked');
     const confirmBookedCollection=client.db('fitness').collection('confirmBooked')
     const adminPaymentsCollections=client.db('fitness').collection('adminPayments')
-    const forumCollection=client.db('fitness').collection('forum')
-    const classCollection=client.db('fitness').collection('classess')
+    const forumCollection=client.db('fitness').collection('forum');
+    const classCollection=client.db('fitness').collection('classess');
     
     
     
